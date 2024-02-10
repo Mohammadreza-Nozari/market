@@ -2,7 +2,7 @@
 
 namespace AuctionService.Database.Entities
 {
-    public class AuctonEntity
+    public class AuctionEntity
     {
         public Guid Id { get; set; }
         public int ReservePrice { get; set; } = 0;
