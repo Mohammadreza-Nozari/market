@@ -1,4 +1,6 @@
+using AuctionService.Database;
 using AuctionService.Database.Context;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,11 +9,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-builder.Services.AddDbContext<DatabaseContext>(dr => {
-
+builder.Services.AddDbContext<DatabaseContext>(dr =>
+{
     dr.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnectionString"));
-
 });
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -29,5 +32,15 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
+
+// initial data
+try
+{
+    DbInitializer.InitDb(app);
+}
+catch (Exception ex)
+{
+    Console.WriteLine(ex);
+}
 
 app.Run();

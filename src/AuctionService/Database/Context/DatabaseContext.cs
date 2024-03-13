@@ -9,7 +9,7 @@ namespace AuctionService.Database.Context
         {
 
         }
-
+         
         public DbSet<AuctionEntity> Auctions { get; set; }
         public DbSet<ItemEntity> Items { get; set; }
 
