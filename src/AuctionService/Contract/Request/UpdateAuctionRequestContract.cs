@@ -1,19 +1,22 @@
-﻿using AuctionService.Database.Entities;
-using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace AuctionService.Contract
+namespace AuctionService.Contract.Request
 {
-    public class ItemContract
+    public class UpdateAuctionRequestContract
     {
         public Guid Id { get; set; }
-        public Guid AuctionId { get; set; }
+        [Required]
         public string Make { get; set; }
+        [Required]
         public string Model { get; set; }
+        [Required]
         public int Year { get; set; }
+        [Required]
         public string Color { get; set; }
+        [Required]
         public int Mileage { get; set; }
+        [Required]
         public string ImageUrl { get; set; }
-        [JsonIgnore]
-        public AuctionContract Auction { get; set; }
+   
     }
 }
