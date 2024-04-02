@@ -69,7 +69,7 @@ namespace AuctionService.Controllers
 
             var result = await _context.SaveChangesAsync() > 0;
 
-            if (!result) return BadRequest("Could not save changes to the Database");
+            if (!result) return BadRequest("Could not update to the Database");
 
             return Ok();
 
@@ -86,7 +86,7 @@ namespace AuctionService.Controllers
 
             var result = await _context.SaveChangesAsync() > 0;
 
-            if (!result) return BadRequest("Could not save changes to the Database");
+            if (!result) return BadRequest("Could not delete to the Database");
 
             return Ok();
 
