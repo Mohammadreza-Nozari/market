@@ -26,8 +26,6 @@ namespace SearchService.Controllers
 
             var result = await query.ExecuteAsync();
 
-
-
             return Ok(new
             {
                 results = result.Results,
