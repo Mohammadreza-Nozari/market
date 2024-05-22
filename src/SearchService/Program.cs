@@ -1,6 +1,7 @@
 
 using MongoDB.Driver;
 using MongoDB.Entities;
+using SearchService.Database.Data;
 using SearchService.Database.Document;
 
 namespace SearchService
@@ -27,23 +28,19 @@ namespace SearchService
                 app.UseSwaggerUI();
             }
 
-
             app.UseAuthorization();
-
 
             app.MapControllers();
 
+            try
+            {
+                await DatabaseInitializer.init(app);
+            }
+            catch (Exception e)
+            {
 
-            await DB.InitAsync("SearchDb", MongoClientSettings
-                .FromConnectionString(builder.Configuration.GetConnectionString("MongoDbConnection")));
-
-            await DB.Index<ItemDocument>()
-                .Key(x => x.Make, KeyType.Text)
-                .Key(x => x.Model, KeyType.Text)
-                .Key(x => x.Color, KeyType.Text)
-                .CreateAsync();
-
-
+                Console.WriteLine(e);
+            }
 
             app.Run();
         }

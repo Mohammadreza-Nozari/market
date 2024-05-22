@@ -12,7 +12,7 @@ namespace SearchService.Database.Document
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
         public DateTime AuctionEnd { get; set; }
-        public string Status { get; set; }
+        public int Status { get; set; }
         public string Make { get; set; }
         public string Model { get; set; }
         public int Year { get; set; }
