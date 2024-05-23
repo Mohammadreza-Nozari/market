@@ -30,7 +30,9 @@ namespace SearchService.Controllers
 
             query = searchRequest.FilterBy switch
             {
-                "endingSoon" => (PagedSearch<ItemDocument>)query.Match(x=>x.AuctionEnd< DateTime.UtcNow.AddHours(6)),
+                "finished" => (PagedSearch<ItemDocument>)query.Match(x=>x.AuctionEnd< DateTime.UtcNow),
+                "endingSoon" => (PagedSearch<ItemDocument>)query.Match(x => x.AuctionEnd < DateTime.UtcNow.AddHours(6)),
+                _ => (PagedSearch<ItemDocument>)query.Match(x => x.AuctionEnd > DateTime.UtcNow.AddHours(6)),
             };
 
             query.PageNumber(searchRequest.PageNumber);
@@ -48,7 +50,6 @@ namespace SearchService.Controllers
             });
 
         }
-
 
     }
 }
