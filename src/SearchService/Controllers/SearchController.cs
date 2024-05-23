@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MongoDB.Entities;
+using SearchService.Contract;
 using SearchService.Database.Document;
 
 namespace SearchService.Controllers
@@ -9,18 +10,31 @@ namespace SearchService.Controllers
     public class SearchController:ControllerBase
     {
         [HttpGet]
-        public async Task<ActionResult<List<ItemDocument>>> SearchItems(string searchTerm,int pageNumber=1,int pageSize=4)
+        public async Task<ActionResult<List<ItemDocument>>> SearchItems([FromQuery]SearchRequestContract searchRequest)
         {
 
             var query = DB.PagedSearch<ItemDocument>();
 
-            if(!string.IsNullOrEmpty(searchTerm))
+            if(!string.IsNullOrEmpty(searchRequest.SearchTerm))
             {
-                query.Match(Search.Full, searchTerm).SortByTextScore();
+                query.Match(Search.Full, searchRequest.SearchTerm).SortByTextScore();
             }
 
-            query.PageNumber(pageNumber);
-            query.PageSize(pageSize);
+
+            query = searchRequest.OrderBy switch
+            {
+                "make" => (PagedSearch<ItemDocument>)query.Sort(x => x.Ascending(a => a.Make)),
+                "new" => (PagedSearch<ItemDocument>)query.Sort(x => x.Descending(a => a.Make)),
+                _=> (PagedSearch<ItemDocument>)query.Sort(x => x.Ascending(a => a.AuctionEnd)),
+            };
+
+            query = searchRequest.FilterBy switch
+            {
+                "endingSoon" => (PagedSearch<ItemDocument>)query.Match(x=>x.AuctionEnd< DateTime.UtcNow.AddHours(6)),
+            };
+
+            query.PageNumber(searchRequest.PageNumber);
+            query.PageSize(searchRequest.PageSize);
 
             query.Sort(item => item.Ascending(x => x.Make));
 
