@@ -3,6 +3,8 @@ using MongoDB.Driver;
 using MongoDB.Entities;
 using SearchService.Database.Data;
 using SearchService.Database.Document;
+using MassTransit;
+using SearchService.Consumers;
 
 namespace SearchService
 {
@@ -18,6 +20,22 @@ namespace SearchService
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            builder.Services.AddMassTransit(x =>
+            {
+
+                x.AddConsumersFromNamespaceContaining<AuctionCreatedConsumer>();
+
+                x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter("search",false));
+
+                x.UsingRabbitMq((context, cfg) =>
+                {
+
+                    cfg.ConfigureEndpoints(context);
+
+                });
+
+            });
 
             var app = builder.Build();
 

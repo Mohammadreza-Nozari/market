@@ -1,9 +1,14 @@
-﻿using MongoDB.Entities;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace SearchService.Database.Document
+namespace Contracts
 {
-    public class ItemDocument : Entity
+    public class AuctionCreatedContract
     {
+        public Guid Id { get; set; }
         public int ReservePrice { get; set; } = 0;
         public string Seller { get; set; }
         public string Winner { get; set; }
@@ -19,5 +24,6 @@ namespace SearchService.Database.Document
         public string Color { get; set; }
         public int Mileage { get; set; }
         public string ImageUrl { get; set; }
+
     }
 }
