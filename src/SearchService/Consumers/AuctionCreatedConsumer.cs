@@ -6,6 +6,7 @@ using SearchService.Database.Document;
 
 namespace SearchService.Consumers
 {
+    // Consumer for Rabbitmq
     public class AuctionCreatedConsumer : IConsumer<AuctionCreatedContract>
     {
         private readonly IMapper _mapper;
@@ -14,6 +15,8 @@ namespace SearchService.Consumers
         {
             this._mapper = mapper;
         }
+
+        // get data 3
         public async Task Consume(ConsumeContext<AuctionCreatedContract> context)
         {
             Console.WriteLine("------> Consuming auction created: " + context.Message.Id);
