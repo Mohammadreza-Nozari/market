@@ -6,6 +6,7 @@ using SearchService.Database.Document;
 
 namespace SearchService.Consumers
 {
+    // Consumer for Rabbitmq
     public class AuctionCreatedConsumer : IConsumer<AuctionCreatedContract>
     {
         private readonly IMapper _mapper;
