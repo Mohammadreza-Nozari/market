@@ -16,7 +16,7 @@ namespace SearchService.Consumers
             this._mapper = mapper;
         }
 
-        // get data 3
+        // get data 4
         public async Task Consume(ConsumeContext<AuctionCreatedContract> context)
         {
             Console.WriteLine("------> Consuming auction created: " + context.Message.Id);
